@@ -68,7 +68,8 @@
     "onCommand:java.classpathConfiguration",
     "onWebviewPanel:java.classpathConfiguration",
     "onCommand:java.formatterSettings",
-    "onWalkthrough:javaWelcome"
+    "onWalkthrough:javaWelcome",
+    "onWebviewPanel:java.projectManagement"
   ],
   "contributes": {
     "walkthroughs": [
@@ -207,6 +208,11 @@
         "category": "Java",
         "title": "Open Text Editor",
         "icon": "$(go-to-file)"
+      },
+      {
+        "command": "java.projectManagement",
+        "category": "Java",
+        "title": "Project Management"
       }
     ],
     "configuration": {
