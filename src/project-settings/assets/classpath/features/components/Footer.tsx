@@ -4,11 +4,12 @@
 import { VSCodeButton, VSCodeDivider, VSCodeLink} from "@vscode/webview-ui-toolkit/react";
 import { Dispatch } from "@reduxjs/toolkit";
 import React, { useEffect } from "react";
-import { ClasspathEntry, ProjectInfo } from "../../../../types";
+import { ClasspathEntry, ProjectInfo } from "../../../../handlers/classpath/types";
 import { useDispatch, useSelector } from "react-redux";
 import { ProjectType } from "../../../../../utils/webview";
-import { onClickGotoProjectConfiguration, onWillUpdateClassPaths, updateMaxHeight } from "../../../utils";
+import { updateMaxHeight } from "../../utils";
 import { updateLoadingState } from "../classpathConfigurationViewSlice";
+import { ClasspathRequest } from "../../../vscode/utils";
 
 const Footer = (): JSX.Element => {
 
@@ -31,11 +32,11 @@ const Footer = (): JSX.Element => {
   }
 
   const handleOpenBuildFile = () => {
-    onClickGotoProjectConfiguration(projects[activeProjectIndex].rootPath, projectType[activeProjectIndex]);
+    ClasspathRequest.onClickGotoProjectConfiguration(projects[activeProjectIndex].rootPath, projectType[activeProjectIndex]);
   };
 
   const handleApply = () => {
-    onWillUpdateClassPaths(
+    ClasspathRequest.onWillUpdateClassPaths(
       projects.map(p => p.rootPath),
       projectType,
       sources,
@@ -47,7 +48,7 @@ const Footer = (): JSX.Element => {
 
   const onDidChangeLoadingState = (event: OnDidChangeLoadingStateEvent) => {
     const {data} = event;
-    if (data.command === "onDidChangeLoadingState") {
+    if (data.command === "classpath.onDidChangeLoadingState") {
       dispatch(updateLoadingState(data.loading));
     }
   }

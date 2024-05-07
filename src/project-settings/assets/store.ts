@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { configureStore } from "@reduxjs/toolkit";
-import classpathConfigurationViewReducer from "../features/classpathConfiguration/classpathConfigurationViewSlice";
+import classpathConfigurationViewReducer from "./classpath/features/classpathConfigurationViewSlice";
 
 export default configureStore({
   reducer: {

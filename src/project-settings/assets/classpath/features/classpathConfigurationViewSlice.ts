@@ -3,12 +3,13 @@
 
 import { createSlice, current } from "@reduxjs/toolkit";
 import _ from "lodash";
-import { ClasspathEntry, ProjectState } from "../../../types";
+import { ClasspathEntry, ProjectState } from "../../../handlers/classpath/types";
 import { ProjectType } from "../../../../utils/webview";
 
 export const classpathConfigurationViewSlice = createSlice({
     name: "classpathConfig",
     initialState: {
+      activeTab: "",
       activeProjectIndex: 0,
       projects: [],
       activeVmInstallPath: [] as string[],
@@ -22,6 +23,9 @@ export const classpathConfigurationViewSlice = createSlice({
       exception: undefined,
     },
     reducers: {
+      updateActiveTab: (state, action) => {
+        state.activeTab = action.payload;
+      },
       listProjects: (state, action) => {
         state.projects = action.payload;
         state.activeProjectIndex = 0;
@@ -58,7 +62,7 @@ export const classpathConfigurationViewSlice = createSlice({
         }
       },
       updateSource: (state, action) => {
-        state.sources[state.activeProjectIndex] = action.payload;
+        state.sources[state.activeProjectIndex] = _.uniqBy(action.payload as ClasspathEntry[], "path");
       },
       setOutputPath: (state, action) => {
         state.output[state.activeProjectIndex] = action.payload;
@@ -80,7 +84,7 @@ export const classpathConfigurationViewSlice = createSlice({
         let newLibs = state.libraries[state.activeProjectIndex];
         newLibs.unshift(...action.payload);
         newLibs = _.uniq(newLibs);
-        state.libraries[state.activeProjectIndex] = _.uniq(newLibs);
+        state.libraries[state.activeProjectIndex] = _.uniqBy(newLibs, "path");
       },
       catchException: (state, action) => {
         state.exception = action.payload;
@@ -96,6 +100,7 @@ function isDifferentStringArray(a1: string[], a2: string[]): boolean {
 }
 
 export const {
+  updateActiveTab,
   listProjects,
   listVmInstalls,
   activeProjectChange,

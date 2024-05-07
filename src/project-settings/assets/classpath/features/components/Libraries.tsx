@@ -5,9 +5,9 @@ import { Dispatch } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeReferencedLibrary, addLibraries } from "../classpathConfigurationViewSlice";
-import { onWillSelectLibraries } from "../../../utils";
+import { ClasspathRequest } from "../../../vscode/utils";
 import { VSCodeButton, VSCodeDataGrid, VSCodeDataGridCell, VSCodeDataGridRow, VSCodeDivider } from "@vscode/webview-ui-toolkit/react";
-import { ClasspathEntry, ClasspathEntryKind } from "../../../../types";
+import { ClasspathEntry, ClasspathEntryKind } from "../../../../handlers/classpath/types";
 
 const Libraries = (): JSX.Element => {
 
@@ -21,12 +21,12 @@ const Libraries = (): JSX.Element => {
   };
 
   const handleAdd = () => {
-    onWillSelectLibraries();
+    ClasspathRequest.onWillSelectLibraries();
   };
 
   const onDidAddLibraries = (event: OnDidAddLibrariesEvent) => {
     const {data} = event;
-    if (data.command === "onDidAddLibraries") {
+    if (data.command === "classpath.onDidAddLibraries") {
       dispatch(addLibraries(data.jars));
     }
   };

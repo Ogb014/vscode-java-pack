@@ -3,10 +3,10 @@
 
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ProjectInfo, ProjectState } from "../../../../types";
+import { ProjectInfo, ProjectState } from "../../../../handlers/classpath/types";
 import { Dispatch } from "@reduxjs/toolkit";
 import { activeProjectChange } from "../classpathConfigurationViewSlice";
-import { onWillLoadProjectClasspath } from "../../../utils";
+import { ClasspathRequest } from "../../../vscode/utils";
 import { VSCodeDropdown, VSCodeOption } from "@vscode/webview-ui-toolkit/react";
 
 const ProjectSelector = (): JSX.Element | null => {
@@ -22,7 +22,7 @@ const ProjectSelector = (): JSX.Element | null => {
 
   const loadProjectClasspath = (rootPath: string) => {
     if (projectState[activeProjectIndex] === ProjectState.Unloaded) {
-      onWillLoadProjectClasspath(rootPath);
+      ClasspathRequest.onWillLoadProjectClasspath(rootPath);
     }
   }
 

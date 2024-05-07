@@ -5,10 +5,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { updateSource } from "../classpathConfigurationViewSlice";
-import { onWillAddSourcePathForUnmanagedFolder } from "../../../utils";
+import { ClasspathRequest } from "../../../vscode/utils";
 import { ProjectType } from "../../../../../utils/webview";
 import { VSCodeButton, VSCodeDataGrid, VSCodeDataGridCell, VSCodeDataGridRow, VSCodeDivider } from "@vscode/webview-ui-toolkit/react";
-import { ClasspathEntry } from "../../../../types";
+import { ClasspathEntry } from "../../../../handlers/classpath/types";
 
 const UnmanagedFolderSources = (): JSX.Element => {
 
@@ -30,12 +30,12 @@ const UnmanagedFolderSources = (): JSX.Element => {
   };
 
   const handleAdd = () => {
-    onWillAddSourcePathForUnmanagedFolder();
+    ClasspathRequest.onWillAddSourcePathForUnmanagedFolder();
   };
 
   const onDidUpdateSourceFolder = (event: OnDidAddSourceFolderEvent) => {
     const {data} = event;
-    if (data.command === "onDidUpdateSourceFolder") {
+    if (data.command === "classpath.onDidUpdateSourceFolder") {
       dispatch(updateSource(data.sourcePaths.map(sp => {
         return {
             path: sp,

@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { updateSource } from "../classpathConfigurationViewSlice";
-import { onWillSelectFolder } from "../../../utils";
+import { ClasspathRequest } from "../../../vscode/utils";
 import { VSCodeButton, VSCodeDataGrid, VSCodeDataGridCell, VSCodeDataGridRow, VSCodeDivider, VSCodeTextField } from "@vscode/webview-ui-toolkit/react";
-import { ClasspathEntry, ClasspathEntryKind } from "../../../../types";
+import { ClasspathEntry, ClasspathEntryKind } from "../../../../handlers/classpath/types";
 
 const Sources = (): JSX.Element => {
 
@@ -77,12 +77,12 @@ const Sources = (): JSX.Element => {
   }
 
   const handleBrowse = (type: string) => {
-    onWillSelectFolder(type);
+    ClasspathRequest.onWillSelectFolder(type);
   }
 
   const messageHandler = (event: any) => {
     const {data} = event;
-    if (data.command === "onDidSelectFolder") {
+    if (data.command === "classpath.onDidSelectFolder") {
       /**
        * data: {
        *  command: string;
@@ -95,7 +95,7 @@ const Sources = (): JSX.Element => {
       } else if (data.type === "output") {
         setEditingOutputPath(data.path);
       }
-    } else if (data.command === "onDidUpdateSourceFolder") {
+    } else if (data.command === "classpath.onDidUpdateSourceFolder") {
       /**
        * data: {
        *  command: string;
