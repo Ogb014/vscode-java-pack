@@ -1,0 +1,117 @@
+import java.util.Scanner;
+
+abstract class Shape {
+    abstract double calculateArea();
+}
+
+class Triangle extends Shape {
+    private double base, height;
+
+    public Triangle(double base, double height) {
+        this.base = base;
+        this.height = height;
+    }
+
+    double calculateArea() {
+        return 0.5 * base * height;
+    }
+}
+
+class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+class Rectangle extends Shape {
+    private double length, breadth;
+
+    public Rectangle(double length, double breadth) {
+        this.length = length;
+        this.breadth = breadth;
+    }
+
+    double calculateArea() {
+        return length * breadth;
+    }
+}
+
+abstract class ThreeDimensionalShape extends Shape {
+    abstract double calculateVolume();
+}
+
+class Sphere extends ThreeDimensionalShape {
+    private double radius;
+
+    public Sphere(double radius) {
+        this.radius = radius;
+    }
+
+    double calculateArea() {
+        return 4 * Math.PI * radius * radius;
+    }
+
+    double calculateVolume() {
+        return (4 / 3.0) * Math.PI * radius * radius * radius;
+    }
+}
+
+class Cube extends ThreeDimensionalShape {
+    private double side;
+
+    public Cube(double side) {
+        this.side = side;
+    }
+
+    double calculateArea() {
+        return 6 * side * side;
+    }
+
+    double calculateVolume() {
+        return side * side * side;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select a shape:");
+        System.out.println("1. Triangle");
+        System.out.println("2. Circle");
+        System.out.println("3. Rectangle");
+        System.out.println("4. Sphere");
+        System.out.println("5. Cube");
+        int choice = scanner.nextInt();
+
+        Shape shape = null;
+        if (choice == 1) {
+            System.out.println("Enter base and height of the triangle:");
+            shape = new Triangle(scanner.nextDouble(), scanner.nextDouble());
+        } else if (choice == 2) {
+            System.out.println("Enter radius of the circle:");
+            shape = new Circle(scanner.nextDouble());
+        } else if (choice == 3) {
+            System.out.println("Enter length and breadth of the rectangle:");
+            shape = new Rectangle(scanner.nextDouble(), scanner.nextDouble());
+        } else if (choice == 4) {
+            System.out.println("Enter radius of the sphere:");
+            shape = new Sphere(scanner.nextDouble());
+        } else if (choice == 5) {
+            System.out.println("Enter side of the cube:");
+            shape = new Cube(scanner.nextDouble());
+        }
+
+        if (shape != null) {
+            System.out.println("Area: " + shape.calculateArea());
+            if (shape instanceof ThreeDimensionalShape) {
+                System.out.println("Volume: " + ((ThreeDimensionalShape) shape).calculateVolume());
+            }
+        }
+    }
+}
